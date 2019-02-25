@@ -34,7 +34,7 @@ void main(){
     int i=0;
     int lastFil = 0;
     int continuer = 1;
-    initArray(map); //// !!!!! c'est trop le bordel il y a deux map differente!!!!!!
+    initArray(map); 
     
     /* on trouve les blocs de depart et d'arriver*/
     for( x = 0; x <= NB_BLOC_LARGEUR; x++)
@@ -51,7 +51,7 @@ void main(){
                 map[x][y] = noeudStart;
                 //map[x][y].wall = 1;
             }
-            if (map[x][y].wall == 3){ //// ca il faut pas y  mettre on s'en fous
+            if (map[x][y].wall == 3){ 
                 noeudFinal.x = x;
                 noeudFinal.y = y;
                 //noeudFinal.g = 0;
@@ -59,8 +59,7 @@ void main(){
                 noeudFinal.f = noeudFinal.h +noeudFinal.g;
                 noeudFinal.wall = 3;
                 map[x][y] = noeudFinal;
-                //printf("le x du S %d   et le y %d \n", x, y);
-                //map[x][y].wall = 123;
+                
                 
             }
         }
@@ -295,7 +294,7 @@ int addInQu(Noeud data){
     
 }
 
-int delInQu(Noeud data){ /// faire cette fonction... !!!!!!!
+int delInQu(Noeud data){ // pour suprimer le premier noaud de la openList
     int i;
 
     if ((front ==-1) && (rear == -1)){
