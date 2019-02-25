@@ -103,10 +103,18 @@ void main(){
             rearClose ++;
         //}
 
-        if (front != -1){
-            noeudActuel = openList[front];
-        }
-        delInQu(noeudActuel);  
+    
+        do
+        {
+            if (front != -1){
+                noeudActuel = openList[front];
+                delInQu(noeudActuel);
+            }
+        } while (checkClose(noeudActuel) == -1);
+            
+            
+        
+          
         if (rearClose >= MAX-1)
             printf("plus de plac");
 
