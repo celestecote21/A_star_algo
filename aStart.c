@@ -69,7 +69,7 @@ void main(){
     
     while(continuer){
 
-        system("clear");
+        //system("clear");
         if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
             continuer = 0; //// !!!!!!! a revoir
         }
@@ -85,7 +85,7 @@ void main(){
                     successeur[i].h = calculH(map, successeur[i].x, successeur[i].y);
                     successeur[i].f = successeur[i].h +successeur[i].g;
                     //printf("successor %d   x: %d  y:%d  h:%d  g:%d  f:%d \n", i, successeur[i].x, successeur[i].y, successeur[i].h, successeur[i].g, successeur[i].f);
-                    if ((check_already(successeur[i]) == 1) && (map[successeur[i].x][successeur[i].y].wall != 2) && (successeur[i].y)>0) /// si il y a pas deja le successeur et que c'est pas un mur
+                    if ((check_already(successeur[i]) == 1) && (map[successeur[i].x][successeur[i].y].wall != 2) && NB_BLOC_HAUTEUR>(successeur[i].y)>0) /// si il y a pas deja le successeur et que c'est pas un mur
                         addInQu(successeur[i]); //on le met dans la queu
                     
                 }
@@ -171,8 +171,8 @@ int initArray(Noeud pointeurMap[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
         }
 
     }
-    pointeurMap[4][0].wall = 2;
-    pointeurMap[7][2].wall = 0;
+    //pointeurMap[4][0].wall = 2;
+    //pointeurMap[7][2].wall = 0;
     pointeurMap[1][2].wall = 1; //block depart 
     
     pointeurMap[7][1].wall = 3; //block arriver 
