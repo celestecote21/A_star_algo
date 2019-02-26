@@ -68,6 +68,8 @@ void main(){
     noeudActuel = noeudStart; 
     
     while(continuer){
+
+        system("clear");
         if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
             continuer = 0; //// !!!!!!! a revoir
         }
@@ -96,10 +98,13 @@ void main(){
         }
 
         printf(" NOEUD ACTUEL : x:%d  y:%d \n", noeudActuel.x, noeudActuel.y);
-        //if (checkClose(noeudActuel) == 1){
-            closeList[rearClose] = noeudActuel;
-            rearClose ++;
-        //}
+        
+        closeList[rearClose] = noeudActuel;
+        rearClose ++;
+        if(noeudActuel.x != noeudStart.x && noeudActuel.y != noeudStart.x){
+            map[noeudActuel.x][noeudActuel.y].wall = 4;
+        }
+       
 
     
         do
@@ -114,7 +119,7 @@ void main(){
         
           
         if (rearClose >= MAX-1)
-            printf("plus de plac");
+            printf("plus de place dans la close liste");
 
         printf("\n\n");
 
@@ -131,7 +136,7 @@ void main(){
         
     }
     
-    //free(map);
+    
 
 
     
@@ -403,6 +408,9 @@ void display(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
             }
             else if (map[i][j].wall == 0){
                 my_putchar(' ');
+            }
+            else if (map[i][j].wall == 4){ //  si il a ete parcourue par la close liste
+                my_putchar('.');
             }
                 
             //printf("x:%d   y:%d             x:%d  y:%d wall:%d\n",i, j, map[i][j].x, map[i][j].y, map[i][j].wall);
