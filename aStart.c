@@ -72,6 +72,7 @@ void main(){
         //system("clear");
         if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
             continuer = 0; //// !!!!!!! a revoir
+            printf("trouver en %d ", rearClose);
         }
         else
         {
@@ -205,20 +206,21 @@ int calculH(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR], int x, int y){
             }
             xf++;
         }
-    /*if (trouver == 0){
+    if (trouver == 0){
         xf = 0;
         for (i = x; i >= 0; i--){
             for (j = 0; j <= NB_BLOC_HAUTEUR; j++){
-                if(map[i][j].wall == 33){
+                if(map[i][j].wall == 3){
                     trouver = 1;
-                    i = NB_BLOC_LARGEUR + 3; //to exit the for wihle
-                    j = NB_BLOC_HAUTEUR + 3;
+                    break;
                 }
             }
+            if (trouver == 1)
+                break;
             xf++;
 
         }
-    }*/
+    }
     //printf("xf: %d \n", xf);
     trouver = 0;
 
@@ -236,20 +238,21 @@ int calculH(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR], int x, int y){
         yf++;
     }
 
-    /*if (trouver == 0){
+    if (trouver == 0){
         yf = 0;
         for (j = y; j >= 0; j--){
             for (i = 0; i <= NB_BLOC_HAUTEUR; i++){
-                if(map[i][j].wall == 33){
+                if(map[i][j].wall == 3){
                     trouver = 1;
-                    i = NB_BLOC_LARGEUR + 3; //to exit the for wihle
-                    j = NB_BLOC_HAUTEUR + 3;
+                    break;
                 }
             }
-        yf++;
+            if (trouver == 1)
+                break;
+            yf++;
         }
     }
-    */
+    
     //printf("yf: %d \n", yf);
 
     //printf("x:%d   y:%d \n", x, y);
