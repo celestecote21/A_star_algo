@@ -175,7 +175,7 @@ int initArray(Noeud pointeurMap[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
 
     }
     pointeurMap[4][0].wall = 2;
-    pointeurMap[7][2].wall = 0;
+    pointeurMap[8][2].wall = 0;
     pointeurMap[1][2].wall = 1; //block depart 
     
     pointeurMap[7][1].wall = 3; //block arriver 
