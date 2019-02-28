@@ -73,6 +73,7 @@ void main(){
         if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
             continuer = 0; //// !!!!!!! a revoir
             printf("trouver en %d ", rearClose);
+            retracage_chemin(&noeudFinal, &noeudStart, map);
         }
         else
         {
@@ -138,6 +139,33 @@ void main(){
     }
 
 }
+
+void retracage_chemin(Noeud *pNoeudFinal, Noeud *pNoeudStart, Noeud ***map){
+    Noeud test;
+    test = *pNoeudFinal;
+    int cont;
+    int i;
+    do
+    {
+        for(i = 0; i < rearClose; i++)
+        {
+        
+        
+            if ((test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) && (test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) /*&& test.g < closeList[i].g*/){
+                printf("yeeeeeeaaaaaaah \n");
+                
+                test = closeList[i];
+                break;
+            }
+        }
+        if(test.x == pNoeudStart->x && test.x == pNoeudStart->x){
+            cont = 0;
+            printf("\n ca marche !!!!!! \n \n");
+        }
+    } while (cont);
+    
+}
+
 
 
 int initArray(Noeud pointeurMap[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
@@ -244,7 +272,7 @@ int calculH(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR], int x, int y){
     
     //printf("yf: %d \n", yf);
 
-    printf("x:%d   y:%d   xf:%d  yf:%d\n", x, y, xf, yf);
+    //printf("x:%d   y:%d   xf:%d  yf:%d\n", x, y, xf, yf);
 
     h = xf + yf;
     
