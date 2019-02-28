@@ -27,8 +27,8 @@ void main(){
     noeudFinal.wall = 3; 
 
     rearClose = 0;
-   system("clear");
-    creat_Qu();
+    system("clear");
+    front = rear = -1;
     int x,y;
     int i=0;
     int lastFil = 0;
@@ -101,7 +101,7 @@ void main(){
             // mettre le noeud Actuel dans la Close list
         }
 
-        printf(" NOEUD ACTUEL : x:%d  y:%d \n", noeudActuel.x, noeudActuel.y);
+        printf(" NOEUD ACTUEL : x:%d  y:%d  f:%d \n", noeudActuel.x, noeudActuel.y, noeudActuel.f);
         
         closeList[rearClose] = noeudActuel;
         rearClose ++;
@@ -133,17 +133,10 @@ void main(){
             printf("f:%d  x:%d  y:%d \n", closeList[i].f, closeList[i].x, closeList[i].y);
         }*/
 
-        
-        
         display(map);
         
-        
     }
-    
-    
 
-
-    
 }
 
 
@@ -178,11 +171,7 @@ int initArray(Noeud pointeurMap[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
     pointeurMap[4][0].wall = 2;
     pointeurMap[8][2].wall = 0;
     pointeurMap[1][2].wall = 1; //block depart 
-    
     pointeurMap[7][1].wall = 3; //block arriver 
-
-    
-
 }
 
 /* faut grave la revoir cette fonction si jamais ils sont pas dans le bon sens*/
@@ -255,7 +244,7 @@ int calculH(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR], int x, int y){
     
     //printf("yf: %d \n", yf);
 
-    //printf("x:%d   y:%d \n", x, y);
+    printf("x:%d   y:%d   xf:%d  yf:%d\n", x, y, xf, yf);
 
     h = xf + yf;
     
@@ -292,16 +281,10 @@ int addInQu(Noeud data){
         front ++;
         openList[rear] = data;
     }
-    else{
-        //openList[rear + 1] = data;
-        
+    else{    
         check(data);
-        rear ++;
-        
+        rear ++;       
     }
-    
-    //display_pqueue();
-    
 }
 
 int delInQu(Noeud data){ // pour suprimer le premier noaud de la openList
@@ -321,54 +304,8 @@ int delInQu(Noeud data){ // pour suprimer le premier noaud de la openList
         openList[rear].y = 0;
         openList[rear].wall = 0;
         rear --;
-
     }
 }
-
-void creat_Qu(){
-    front = rear = -1; // creat the queu by saying the front and the rear
-    //openList[rear].f = 1000;
-}
-
-
-/*
-void check_Qu(Noeud data){
-    int i, j;
-    for(i = 0; i <= rear ; i++) ///mettre max a la place de 10
-    {
-       if ( data.f <= openList[rear-i].f){
-        for(j = rear +1; j > i; j--)
-            {
-                
-                
-                openList[j] = openList[j - 1];
-                
-                
-                
-                //printf("changement de place");
-            }
-            openList[i] = data;
-            for(i = 0; i < 10; i++)
-            {
-                printf("f:%d  x:%d  y:%d \n", openList[i].f, openList[i].x, openList[i].y);
-            }
-            printf("rear: %d  donne: %d \n", rear, openList[rear].f);
-            printf("\n \n \n");
-            return;
-            //placer = 1;
-        }
-    }
-    //if (placer == 0)
-        openList[rear] = data;
-
-    for(i = 0; i < 10; i++)
-        {
-            printf("f:%d  x:%d  y:%d \n", openList[i].f, openList[i].x, openList[i].y);
-        }
-        printf("rear: %d  donne: %d \n", rear, openList[rear].f);
-    printf("\n \n \n");
-}*/
-
 
 int check_already(Noeud data){
     int i;
@@ -431,25 +368,6 @@ void my_putchar(char c)
     write(1, &c, 1);
 }
 
-
-void display_pqueue()
-{
-    if ((front == -1) && (rear == -1))
-    {
-        printf("\nQueue is empty");
-        return;
-    }
-    
-    for (; front <= rear; front++)
-    {
-        printf(" %d ", openList[front].f);
-    }
-    
-    front = 0;
-    printf("\n");
-}
-
-
 void check(Noeud data)
 {
     int i,j;
@@ -469,17 +387,19 @@ void check(Noeud data)
     openList[i] = data;
 }
 
-
-
-int addToStack(Noeud data){
-
-    if(stack.top >= MAX-1){
-        printf("stack is full");
-        return -1;
-    }
-    else
+void display_pqueue()
+{
+    if ((front == -1) && (rear == -1))
     {
-        stack.top ++;
-        stack.stk[stack.top] = data;
+        printf("\nQueue is empty");
+        return;
     }
+    
+    for (; front <= rear; front++)
+    {
+        printf(" %d ", openList[front].f);
+    }
+    
+    front = 0;
+    printf("\n");
 }
