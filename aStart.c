@@ -70,13 +70,8 @@ void main(){
     while(continuer){
 
         //system("clear");
-        if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
-            continuer = 0; //// !!!!!!! a revoir
-            printf("trouver en %d ", rearClose);
-            retracage_chemin(&noeudFinal, &noeudStart, map);
-        }
-        else
-        {
+        
+        
             
            
             for(i = 0; i < 9; i++){/// on calcul toutes les chose pour les successors et on les mets dans la openList 
@@ -100,9 +95,9 @@ void main(){
 
             // on compare mtn avec closeList pour verifier si on la pas fait ou si il y une modification
             // mettre le noeud Actuel dans la Close list
-        }
+        
 
-        printf(" NOEUD ACTUEL : x:%d  y:%d  f:%d \n", noeudActuel.x, noeudActuel.y, noeudActuel.f);
+        printf(" NOEUD ACTUEL : x:%d  y:%d  g:%d \n", noeudActuel.x, noeudActuel.y, noeudActuel.g);
         
         closeList[rearClose] = noeudActuel;
         rearClose ++;
@@ -135,6 +130,12 @@ void main(){
         }*/
 
         display(map);
+        if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
+            continuer = 0; //// !!!!!!! a revoir
+            noeudFinal = noeudActuel;
+            printf("trouver en %d ", rearClose);
+            retracage_chemin(&noeudFinal, &noeudStart, map);
+        }
         
     }
 
@@ -151,8 +152,8 @@ void retracage_chemin(Noeud *pNoeudFinal, Noeud *pNoeudStart, Noeud ***map){
         {
         
         
-            if ((test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) && (test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) /*&& test.g < closeList[i].g*/){
-                printf("yeeeeeeaaaaaaah \n");
+            if ((test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) && (test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) && test.g == closeList[i].g + 1){
+                printf("yeeeeeeaaaaaaah x:%d  y:%d  g:%d\n", test.x, test.y, test.g);
                 
                 test = closeList[i];
                 break;
