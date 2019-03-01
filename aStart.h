@@ -39,4 +39,4 @@ void display(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]);
 void my_putchar(char c);
 void check(Noeud data);
 int checkClose(Noeud data);
-void retracage_chemin(Noeud *pNoeudFinal, Noeud *pNoeudStart, Noeud ***map);
+void retracage_chemin(Noeud *pNoeudFinal, Noeud *pNoeudStart, Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]);

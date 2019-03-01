@@ -97,13 +97,13 @@ void main(){
             // mettre le noeud Actuel dans la Close list
         
 
-        printf(" NOEUD ACTUEL : x:%d  y:%d  g:%d \n", noeudActuel.x, noeudActuel.y, noeudActuel.g);
+        //printf(" NOEUD ACTUEL : x:%d  y:%d  g:%d \n", noeudActuel.x, noeudActuel.y, noeudActuel.g);
         
         closeList[rearClose] = noeudActuel;
         rearClose ++;
-        if(noeudActuel.x != noeudStart.x && noeudActuel.y != noeudStart.x){
+        /*if(noeudActuel.x != noeudStart.x && noeudActuel.y != noeudStart.x){
             map[noeudActuel.x][noeudActuel.y].wall = 4;
-        }
+        }*/
        
 
     
@@ -129,22 +129,24 @@ void main(){
             printf("f:%d  x:%d  y:%d \n", closeList[i].f, closeList[i].x, closeList[i].y);
         }*/
 
-        display(map);
+        //display(map);
         if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
-            continuer = 0; //// !!!!!!! a revoir
             noeudFinal = noeudActuel;
             printf("trouver en %d ", rearClose);
             retracage_chemin(&noeudFinal, &noeudStart, map);
+            display(map);
+            break;
         }
         
     }
 
 }
 
-void retracage_chemin(Noeud *pNoeudFinal, Noeud *pNoeudStart, Noeud ***map){
+void retracage_chemin(Noeud *pNoeudFinal, Noeud *pNoeudStart, Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
     Noeud test;
     test = *pNoeudFinal;
     int cont;
+    
     int i;
     do
     {
@@ -152,16 +154,15 @@ void retracage_chemin(Noeud *pNoeudFinal, Noeud *pNoeudStart, Noeud ***map){
         {
         
         
-            if ((test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) && (test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) && test.g == closeList[i].g + 1){
-                printf("yeeeeeeaaaaaaah x:%d  y:%d  g:%d\n", test.x, test.y, test.g);
-                
+            if ((test.x + 1 >= closeList[i].x  && closeList[i].x >= test.x -1) && (test.y + 1 >= closeList[i].y  && closeList[i].y >= test.y -1) && test.g == closeList[i].g + 1){
                 test = closeList[i];
+                map[test.x][test.y].wall = 4;
                 break;
             }
         }
         if(test.x == pNoeudStart->x && test.x == pNoeudStart->x){
             cont = 0;
-            printf("\n ca marche !!!!!! \n \n");
+            map[test.x][test.y].wall = 1;
         }
     } while (cont);
     
