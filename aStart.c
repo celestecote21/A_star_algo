@@ -3,9 +3,9 @@
 #include "aStart.h"
 
 /*
-bon tout marche enfin il y a qqls beug comme par exemple quand y est ngatif
-mais il reste encore 1 gros truc:
-retracer le chemin
+TO DO:
+lecture de la map a partir d'un fichier
+ou faire comme une seule fonction ou on envoie juste une map
 */
 
 
@@ -14,12 +14,10 @@ Noeud openList[MAX];
 Noeud closeList[MAX];
 int front, rear;
 int frontClose, rearClose;
-STACK stack;
 
 void main(){
    
     Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR];
-    stack.top = -1;
     Noeud noeudStart, noeudFinal, noeudActuel;
     Noeud successeur[8];
     noeudStart.wall = 1; 
@@ -28,10 +26,10 @@ void main(){
 
     rearClose = 0;
     system("clear");
-    front = rear = -1;
+    front = rear = -1; // init the queue
     int x,y;
     int i=0;
-    int lastFil = 0;
+    
     int continuer = 1;
     initArray(map); 
     
@@ -67,70 +65,41 @@ void main(){
     // start with the noeud start
     noeudActuel = noeudStart; 
     
-    while(continuer){
+    while(continuer){ 
 
-        //system("clear");
-        
-        
-            
-           
-            for(i = 0; i < 9; i++){/// on calcul toutes les chose pour les successors et on les mets dans la openList 
-                if(i != 4){
-                    successeur[i].x = calculX(i, noeudActuel.x); 
-                    successeur[i].y = calculY(i, noeudActuel.y);
-                    successeur[i].g = noeudActuel.g + 1;// ca il faut voir avec les diagonals
-                    successeur[i].h = calculH(map, successeur[i].x, successeur[i].y);
-                    successeur[i].f = successeur[i].h +successeur[i].g;
-                    //printf("successor %d   x: %d  y:%d  h:%d  g:%d  f:%d \n", i, successeur[i].x, successeur[i].y, successeur[i].h, successeur[i].g, successeur[i].f);
-                    if ((check_already(successeur[i]) == 1) && (map[successeur[i].x][successeur[i].y].wall != 2) && (successeur[i].y)>=0) /// si il y a pas deja le successeur et que c'est pas un mur
-                    {
-                        if((successeur[i].x)>=0 && (successeur[i].y)>=0 && (successeur[i].x)<=NB_BLOC_LARGEUR && (successeur[i].y)<=NB_BLOC_HAUTEUR)
-                            addInQu(successeur[i]); //on le met dans la queu
-                    }
-                    
+        for(i = 0; i < 9; i++){/// for all the successeur we assigne all the value
+            if(i != 4){
+                successeur[i].x = calculX(i, noeudActuel.x); 
+                successeur[i].y = calculY(i, noeudActuel.y);
+                successeur[i].g = noeudActuel.g + 1;// ca il faut voir avec les diagonals !!!!!
+                successeur[i].h = calculH(map, successeur[i].x, successeur[i].y);
+                successeur[i].f = successeur[i].h +successeur[i].g;
+                //printf("successor %d   x: %d  y:%d  h:%d  g:%d  f:%d \n", i, successeur[i].x, successeur[i].y, successeur[i].h, successeur[i].g, successeur[i].f);
+                if ((check_already(successeur[i]) == 1) && (map[successeur[i].x][successeur[i].y].wall != 2) && (successeur[i].y)>=0) /// si il y a pas deja le successeur et que c'est pas un mur
+                {
+                    if((successeur[i].x)>=0 && (successeur[i].y)>=0 && (successeur[i].x)<=NB_BLOC_LARGEUR && (successeur[i].y)<=NB_BLOC_HAUTEUR)
+                        addInQu(successeur[i]); // we put the node in the queu
                 }
-              
-            } ///// !!!!!!! il reste grave des truc a faire ici faut reprendre la openList et tout
+                
+            }
             
-
-            // on compare mtn avec closeList pour verifier si on la pas fait ou si il y une modification
-            // mettre le noeud Actuel dans la Close list
-        
-
+        } 
         //printf(" NOEUD ACTUEL : x:%d  y:%d  g:%d \n", noeudActuel.x, noeudActuel.y, noeudActuel.g);
         
         closeList[rearClose] = noeudActuel;
         rearClose ++;
-        /*if(noeudActuel.x != noeudStart.x && noeudActuel.y != noeudStart.x){
-            map[noeudActuel.x][noeudActuel.y].wall = 4;
-        }*/
-       
-
-    
-        do
+            
+        do// change the Actu node
         {
             if (front != -1){
                 noeudActuel = openList[front];
                 delInQu(noeudActuel);
             }
         } while (checkClose(noeudActuel) == -1);
-            
-            
-        
-          
-        if (rearClose >= MAX-1)
-            printf("plus de place dans la close liste");
-
+      
         printf("\n\n");
-
-        
-        /*for( i = 0; i <= rearClose; i++)
-        {
-            printf("f:%d  x:%d  y:%d \n", closeList[i].f, closeList[i].x, closeList[i].y);
-        }*/
-
         //display(map);
-        if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ //si le neoud actu est le noeud final on arrete
+        if((noeudActuel.x == noeudFinal.x) && (noeudActuel.y == noeudFinal.y)){ // if the node Actu is the final node the processe stop
             noeudFinal = noeudActuel;
             printf("trouver en %d ", rearClose);
             retracage_chemin(&noeudFinal, &noeudStart, map);
@@ -204,7 +173,7 @@ int initArray(Noeud pointeurMap[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
     pointeurMap[7][1].wall = 3; //block arriver 
 }
 
-/* faut grave la revoir cette fonction si jamais ils sont pas dans le bon sens*/
+
 int calculH(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR], int x, int y){
     int h;
     int xf = 0;
@@ -243,7 +212,6 @@ int calculH(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR], int x, int y){
     //printf("xf: %d \n", xf);
     trouver = 0;
 
- ///////    la ca va pas il faut que ca reprenne quand le stop est derriere le start
     for (j = y; j >= 0; j--){
         for (i = 0; i <= NB_BLOC_LARGEUR; i++){
             if(map[i][j].wall == 3){
@@ -271,14 +239,8 @@ int calculH(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR], int x, int y){
             yf++;
         }
     }
-    
-    //printf("yf: %d \n", yf);
-
-    //printf("x:%d   y:%d   xf:%d  yf:%d\n", x, y, xf, yf);
 
     h = xf + yf;
-    
-    //printf(" h = %d \n ", h);
     return h;
 }
 
@@ -305,7 +267,7 @@ int calculX(int i, int x){
     }
 }
 
-int addInQu(Noeud data){
+int addInQu(Noeud data){ // just add 1 one the rear and send the node to trie the queu
     if ((front ==-1) && (rear == -1)){
         rear ++;
         front ++;
@@ -317,11 +279,11 @@ int addInQu(Noeud data){
     }
 }
 
-int delInQu(Noeud data){ // pour suprimer le premier noaud de la openList
+int delInQu(Noeud data){ // just delete the first node of the openList
     int i;
 
     if ((front ==-1) && (rear == -1)){
-        fprintf(stderr, "pas de truc a virer");
+        printf("pas de truc a virer");
     }
     else{
         for(i = 0; i < rear; i++){
@@ -337,7 +299,7 @@ int delInQu(Noeud data){ // pour suprimer le premier noaud de la openList
     }
 }
 
-int check_already(Noeud data){
+int check_already(Noeud data){ // check if the node is already in the OpenListe
     int i;
     for(i = 0; i <= rear; i++){
         if((data.x == openList[i].x) && (data.y == openList[i].y)){
@@ -348,7 +310,7 @@ int check_already(Noeud data){
     return 1;
 }
 
-int checkClose(Noeud data){
+int checkClose(Noeud data){ // check if the node is already in the CloseListe
     int i;
     for(i = 0; i <= rearClose; i++){
         if((data.x == closeList[i].x) && (data.y == closeList[i].y)){
@@ -359,7 +321,7 @@ int checkClose(Noeud data){
     return 1;
 }
 
-void display(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
+void display(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){ // display the map 
 
     char c;
     int i, j;
@@ -385,8 +347,6 @@ void display(Noeud map[NB_BLOC_LARGEUR][NB_BLOC_HAUTEUR]){
             else if (map[i][j].wall == 4){ //  si il a ete parcourue par la close liste
                 my_putchar('.');
             }
-                
-            //printf("x:%d   y:%d             x:%d  y:%d wall:%d\n",i, j, map[i][j].x, map[i][j].y, map[i][j].wall);
         }
         my_putchar('\n');
     }
@@ -398,7 +358,7 @@ void my_putchar(char c)
     write(1, &c, 1);
 }
 
-void check(Noeud data)
+void check(Noeud data) // add and tri the node and the openListe
 {
     int i,j;
     
@@ -415,21 +375,4 @@ void check(Noeud data)
         }
     }
     openList[i] = data;
-}
-
-void display_pqueue()
-{
-    if ((front == -1) && (rear == -1))
-    {
-        printf("\nQueue is empty");
-        return;
-    }
-    
-    for (; front <= rear; front++)
-    {
-        printf(" %d ", openList[front].f);
-    }
-    
-    front = 0;
-    printf("\n");
 }
