@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "aStart.h"
+#include "file.h"
 
 /*
 TO DO:
@@ -31,8 +32,8 @@ void main(){
     int i=0;
     
     int continuer = 1;
-    initArray(map); 
-    
+    //initArray(map); 
+    loadMap(map);
     /* on trouve les blocs de depart et d'arriver*/
     for( x = 0; x <= NB_BLOC_LARGEUR; x++)
     {
